@@ -295,14 +295,14 @@ html { scroll-padding-top: var(--header-offset, 84px); }
 [dir="rtl"] .gallery-controls button { transform: scaleX(-1); }
 
 @media (prefers-reduced-motion: no-preference) {
-  .has-revealed { animation: section-arrival 650ms ease-out both; }
-  .has-revealed:nth-child(3n + 2) { animation-delay: 65ms; }
-  .has-revealed:nth-child(3n) { animation-delay: 120ms; }
+  .has-revealed { animation: item-arrival 760ms cubic-bezier(.2, .72, .22, 1) both; }
+  .has-revealed:nth-child(3n + 2) { animation-delay: 90ms; }
+  .has-revealed:nth-child(3n) { animation-delay: 160ms; }
   .section-has-arrived { animation: block-arrival 760ms cubic-bezier(.2, .72, .22, 1); }
 }
 
-@keyframes section-arrival {
-  from { transform: translateY(19px); opacity: 0.68; }
+@keyframes item-arrival {
+  from { transform: translateY(26px) scale(0.985); opacity: 0.48; }
   to { transform: translateY(0); opacity: 1; }
 }
 

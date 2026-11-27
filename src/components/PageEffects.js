@@ -129,12 +129,16 @@ export default function PageEffects({ language, paused }) {
 
     const reveal = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
       for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        if (!motion.matches) {
-          const isSection = entry.target.matches("main > section:not(#hero), .site-footer");
-          entry.target.classList.add(isSection ? "section-has-arrived" : "has-revealed");
+        const isSection = entry.target.matches("main > section:not(#hero), .site-footer");
+        if (isSection) {
+          if (!entry.isIntersecting) continue;
+          if (!motion.matches) entry.target.classList.add("section-has-arrived");
+          reveal.unobserve(entry.target);
+          continue;
         }
-        reveal.unobserve(entry.target);
+
+        if (entry.isIntersecting && !motion.matches) entry.target.classList.add("has-revealed");
+        else if (!entry.isIntersecting) entry.target.classList.remove("has-revealed");
       }
     }, { threshold: 0.1 }) : null;
 
