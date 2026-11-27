@@ -49,6 +49,7 @@ export default function PageEffects({ language, paused }) {
     const background = story?.querySelector("canvas");
     const context = background?.getContext("2d");
     const chapters = story ? [...story.querySelectorAll("[data-scroll-step]")] : [];
+    const scrollMotionItems = [...document.querySelectorAll("[data-scroll-motion]")];
     let frame;
     let lastStep;
     let canvasWidth;
@@ -106,6 +107,14 @@ export default function PageEffects({ language, paused }) {
         hero.style.setProperty("--hero-drift", `${amount * 45}px`);
         hero.style.setProperty("--hero-scale", 1 - amount * 0.08);
       }
+      const followScroll = !motion.matches && !paused;
+      const scrollOffsets = scrollMotionItems.map(item => {
+        const bounds = item.getBoundingClientRect();
+        const distanceFromFocus = bounds.top + bounds.height / 2 - viewport * 0.56;
+        const offset = followScroll ? Math.max(-12, Math.min(12, -distanceFromFocus * 0.025)) : 0;
+        return [item, offset];
+      });
+      for (const [item, offset] of scrollOffsets) item.style.setProperty("--scroll-shift", `${offset.toFixed(2)}px`);
       if (story) updateStory(viewport);
     }
 
@@ -149,6 +158,7 @@ export default function PageEffects({ language, paused }) {
       root.style.removeProperty("--header-offset");
       hero?.style.removeProperty("--hero-drift");
       hero?.style.removeProperty("--hero-scale");
+      for (const item of scrollMotionItems) item.style.removeProperty("--scroll-shift");
     };
   }, [language, paused]);
 

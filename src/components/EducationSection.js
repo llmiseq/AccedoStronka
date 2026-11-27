@@ -8,7 +8,7 @@ export default function EducationSection({ id, content }) {
         </div>
         <div className="education-stories">
           {content.articles.map(article => (
-            <article key={article.title} data-reveal>
+            <article key={article.title} data-reveal data-scroll-motion>
               <h3>{article.title}</h3>
               <p>{article.body}</p>
             </article>

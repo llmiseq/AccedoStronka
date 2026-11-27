@@ -26,15 +26,17 @@ export default function PrototypeGallery({ assets, labels, experience }) {
     <section id="gallery" className="section gallery-section" aria-labelledby="gallery-title">
       <div className="wrap">
         <h2 id="gallery-title" data-reveal>{labels.gallery}</h2>
-        <div className="gallery-grid">
+        <div className="row row-cols-2 row-cols-lg-3 g-3 gallery-grid">
           {frames.map((frame, index) => (
-            <figure key={frame} data-reveal>
-              <button className="gallery-trigger" type="button" onClick={event => open(event, index)} aria-label={`${experience.enlarge}: ${labels.captions[index]}`}>
-                <img src={frameUrl(index)} alt="" width="960" height="540" loading="lazy" />
-                <span className="gallery-enlarge" aria-hidden="true">↗</span>
-              </button>
-              <figcaption>{labels.captions[index]}</figcaption>
-            </figure>
+            <div className="col" key={frame}>
+              <figure data-reveal data-scroll-motion>
+                <button className="gallery-trigger" type="button" onClick={event => open(event, index)} aria-label={`${experience.enlarge}: ${labels.captions[index]}`}>
+                  <img src={frameUrl(index)} alt="" width="960" height="540" loading="lazy" />
+                  <span className="gallery-enlarge" aria-hidden="true">↗</span>
+                </button>
+                <figcaption>{labels.captions[index]}</figcaption>
+              </figure>
+            </div>
           ))}
         </div>
       </div>

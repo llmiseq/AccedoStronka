@@ -132,7 +132,7 @@ export default function App() {
               <p>{text.description}</p>
             </div>
             <ol className="steps" data-reveal>
-              {text.steps.map(step => <li key={step}>{step}</li>)}
+              {text.steps.map(step => <li key={step} data-scroll-motion>{step}</li>)}
             </ol>
           </div>
         </section>
@@ -148,7 +148,7 @@ export default function App() {
             </div>
             <div className="scenario-grid">
               {experience.topics.map(({ title, description }) => (
-                <article key={title} data-scroll-step data-reveal>
+                <article key={title} data-scroll-step data-reveal data-scroll-motion>
                   <h3>{title}</h3>
                   <p>{description}</p>
                 </article>
@@ -160,12 +160,14 @@ export default function App() {
         <section id="technology" className="section technology-section">
           <div className="wrap">
             <h2 data-reveal>{labels.tech}</h2>
-            <div className="technology-grid">
+            <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 technology-grid">
               {modules.map(({ title, description }) => (
-                <article key={title} data-reveal>
-                  <h3>{title}</h3>
-                  <p>{description}</p>
-                </article>
+                <div className="col" key={title}>
+                  <article data-reveal data-scroll-motion>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                  </article>
+                </div>
               ))}
             </div>
           </div>
