@@ -92,7 +92,7 @@ export default function App() {
 
   return (
     <>
-      <PageEffects language={lang} />
+      <PageEffects language={lang} paused={paused} />
       <Header text={text} labels={labels} language={language} setLanguage={setLanguage} />
       <main>
         <section id="hero" className="hero">
@@ -129,14 +129,15 @@ export default function App() {
         </section>
 
         <section id="scenarios" className="section scenario-section">
-          <div className="wrap">
+          <canvas className="scenario-backdrop" aria-hidden="true" />
+          <div className="wrap scenario-layout">
             <div className="scenario-intro" data-reveal>
               <h2>{experience.title}</h2>
               <p>{experience.intro}</p>
             </div>
             <div className="scenario-grid">
               {experience.topics.map(({ title, description }) => (
-                <article key={title} data-reveal>
+                <article key={title} data-scroll-step data-reveal>
                   <h3>{title}</h3>
                   <p>{description}</p>
                 </article>

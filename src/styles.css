@@ -310,3 +310,86 @@ html { scroll-padding-top: var(--header-offset, 84px); }
   .gallery-grid { gap: 10px; }
   .gallery-grid figcaption { padding: 8px 9px; overflow-wrap: anywhere; }
 }
+
+.hero { overflow: clip; }
+.hero .signal-panel {
+  translate: 0 var(--hero-drift, 0px);
+  scale: var(--hero-scale, 1);
+}
+
+.scenario-section {
+  position: relative;
+  isolation: isolate;
+  background: #121b2b;
+}
+
+.scenario-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.scenario-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: start;
+  gap: clamp(26px, 6vw, 88px);
+}
+
+.scenario-intro {
+  padding-block: 10px 24px;
+}
+
+.scenario-intro p {
+  max-width: 49ch;
+  color: #c6d2e6;
+}
+
+.scenario-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 17px;
+  margin-top: 0;
+}
+
+.scenario-grid article {
+  display: grid;
+  align-content: center;
+  min-height: 158px;
+  padding: clamp(20px, 3vw, 34px);
+  border: 1px solid #354766;
+  border-inline-start: 3px solid #526b94;
+  border-radius: 10px;
+  background: #19253b;
+  transition: border-color 360ms ease, background-color 360ms ease;
+}
+
+.scenario-grid article.is-current {
+  border-color: #7c9ed7;
+  border-inline-start-color: #a9c7ff;
+  background: #202f4a;
+}
+
+.scenario-grid h3 { color: #eef4ff; }
+.scenario-grid p { max-width: 61ch; }
+
+@media (min-width: 861px) and (min-height: 660px) and (prefers-reduced-motion: no-preference) {
+  .scenario-intro {
+    position: sticky;
+    top: calc(var(--header-offset, 84px) + 36px);
+  }
+
+  .scenario-grid article { min-height: 186px; }
+}
+
+@media (max-width: 860px) {
+  .scenario-layout { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .scenario-intro { padding-block: 0 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero .signal-panel { translate: none; scale: none; }
+}
