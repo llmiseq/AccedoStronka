@@ -300,11 +300,17 @@ html { scroll-padding-top: var(--header-offset, 84px); }
   .has-revealed { animation: section-arrival 650ms ease-out both; }
   .has-revealed:nth-child(3n + 2) { animation-delay: 65ms; }
   .has-revealed:nth-child(3n) { animation-delay: 120ms; }
+  .section-has-arrived { animation: block-arrival 760ms cubic-bezier(.2, .72, .22, 1); }
 }
 
 @keyframes section-arrival {
   from { transform: translateY(19px); opacity: 0.68; }
   to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes block-arrival {
+  from { opacity: 0.76; translate: 0 22px; }
+  to { opacity: 1; translate: 0 0; }
 }
 
 @media (max-width: 680px) {

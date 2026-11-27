@@ -121,12 +121,15 @@ export default function PageEffects({ language, paused }) {
     const reveal = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
-        if (!motion.matches) entry.target.classList.add("has-revealed");
+        if (!motion.matches) {
+          const isSection = entry.target.matches("main > section:not(#hero), .site-footer");
+          entry.target.classList.add(isSection ? "section-has-arrived" : "has-revealed");
+        }
         reveal.unobserve(entry.target);
       }
     }, { threshold: 0.1 }) : null;
 
-    document.querySelectorAll("[data-reveal]").forEach(element => reveal?.observe(element));
+    document.querySelectorAll("[data-reveal], main > section:not(#hero), .site-footer").forEach(element => reveal?.observe(element));
     const resize = "ResizeObserver" in window ? new ResizeObserver(updateLayout) : null;
     resize?.observe(document.body);
     if (header) resize?.observe(header);
