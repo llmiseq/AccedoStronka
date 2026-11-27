@@ -96,8 +96,15 @@ export default function App() {
     <>
       <PageEffects language={lang} paused={paused} />
       <Header text={text} labels={labels} language={language} setLanguage={setLanguage} />
-      <main>
+      <main className={paused ? "site-main motion-paused" : "site-main"}>
         <section id="hero" className="hero">
+          <div className="hero-orbit" aria-hidden="true">
+            <span className="orbit-ring orbit-ring-one" />
+            <span className="orbit-ring orbit-ring-two" />
+            <span className="orbit-node orbit-node-one" />
+            <span className="orbit-node orbit-node-two" />
+            <span className="orbit-node orbit-node-three" />
+          </div>
           <div className="wrap hero-layout">
             <div className="hero-copy">
               <h1>{text.title}</h1>
