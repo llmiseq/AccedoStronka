@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import SignalField from "./components/SignalField";
 import PageEffects from "./components/PageEffects";
+import EducationSection from "./components/EducationSection";
 import PrototypeGallery from "./components/PrototypeGallery";
 import messages, { detectLanguage } from "./i18n/showcase";
 import experienceFor from "./i18n/experience";
+import education from "./i18n/education";
 import modulesFor from "./i18n/modules";
 import { detailsFor } from "./i18n/details";
 import { translations } from "./i18n/translations";
@@ -128,6 +130,8 @@ export default function App() {
           </div>
         </section>
 
+        <EducationSection id="purpose" content={education[lang].purpose} />
+
         <section id="scenarios" className="section scenario-section">
           <canvas className="scenario-backdrop" aria-hidden="true" />
           <div className="wrap scenario-layout">
@@ -159,6 +163,8 @@ export default function App() {
             </div>
           </div>
         </section>
+
+        <EducationSection id="development" content={education[lang].development} />
 
         <PrototypeGallery assets={assets} labels={labels} experience={experience} />
 

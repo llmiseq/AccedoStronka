@@ -393,3 +393,21 @@ html { scroll-padding-top: var(--header-offset, 84px); }
 @media (prefers-reduced-motion: reduce) {
   .hero .signal-panel { translate: none; scale: none; }
 }
+
+.education-section { border-bottom: 1px solid var(--line); }
+.education-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(28px, 6vw, 84px);
+  align-items: start;
+}
+.education-intro h2 { max-width: 17ch; }
+.education-intro p { max-width: 49ch; margin-top: 17px; color: #c6d2e6; font-size: 1.06rem; }
+.education-stories { display: grid; gap: 24px; }
+.education-stories article { padding-block-start: 15px; border-top: 1px solid #49638d; }
+.education-stories h3 { margin-bottom: 8px; color: #eef4ff; font-size: 1.24rem; }
+.education-stories p { max-width: 66ch; color: var(--muted); }
+
+@media (max-width: 800px) {
+  .education-layout { grid-template-columns: minmax(0, 1fr); }
+}
