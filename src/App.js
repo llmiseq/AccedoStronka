@@ -131,8 +131,8 @@ export default function App() {
               <h2>{text.practice}</h2>
               <p>{text.description}</p>
             </div>
-            <ol className="steps" data-reveal>
-              {text.steps.map(step => <li key={step} data-scroll-motion>{step}</li>)}
+            <ol className="steps">
+              {text.steps.map(step => <li key={step} data-reveal data-scroll-motion>{step}</li>)}
             </ol>
           </div>
         </section>
@@ -180,25 +180,25 @@ export default function App() {
         <section id="team" className="section people">
           <div className="wrap">
             <h2 data-reveal>{text.team}</h2>
-            <ul className="people-list" data-reveal>
+            <ul className="people-list">
               {project.team.members.map(member => (
-                <li key={member.email}><a href={`mailto:${member.email}`}>{member.name} <Arrow /></a></li>
+                <li key={member.email} data-reveal><a href={`mailto:${member.email}`}>{member.name} <Arrow /></a></li>
               ))}
             </ul>
-            <div className="support-grid" data-reveal>
+            <div className="support-grid">
               <section id="supervisors">
-                <h3>{text.support}</h3>
+                <h3 data-reveal>{text.support}</h3>
                 {mentors.map(({ name, role }, index) => (
-                  <div className="support-row" key={name}>
+                  <div className="support-row" key={name} data-reveal>
                     <strong>{name}</strong>
                     <p>{text.roles?.[index] || role}</p>
                   </div>
                 ))}
               </section>
               <section id="institutions">
-                <h3>{text.partners}</h3>
+                <h3 data-reveal>{text.partners}</h3>
                 {project.institutions.items.map((institution, index) => (
-                  <a className="institution support-row" href={institution.url} key={institution.url}>
+                  <a className="institution support-row" href={institution.url} key={institution.url} data-reveal>
                     <img src={assets + ["sobieski.png", "us_logo.png"][index]} alt="" loading="lazy" />
                     <strong>{text.institutions?.[index] || institution.name} <Arrow /></strong>
                   </a>
