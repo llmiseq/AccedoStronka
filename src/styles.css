@@ -7,8 +7,9 @@
   --dark: #192336;
   --white: #f6f8ff;
   --accent: #b2caff;
+  --display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
   --heading: "Avenir Next", Avenir, "Segoe UI", system-ui, sans-serif;
-  font-family: system-ui, sans-serif;
+  font-family: var(--heading);
   background: var(--paper);
   color: var(--ink);
 }
@@ -20,9 +21,10 @@ a { color: inherit; text-decoration: none; }
 button { cursor: pointer; font: inherit; }
 img { display: block; max-width: 100%; }
 h1, h2, h3, p, figure { margin: 0; }
-h1, h2, h3, .brand { font-family: var(--heading); }
+h1, h2 { font-family: var(--display); font-weight: 600; }
+h3, .brand { font-family: var(--heading); }
 h1, h2, h3 { overflow-wrap: anywhere; }
-h2 { font-size: clamp(2rem, 4.3vw, 3.7rem); line-height: 1.08; letter-spacing: -0.045em; }
+h2 { font-size: clamp(2rem, 4.3vw, 3.7rem); line-height: 1.08; letter-spacing: -0.025em; }
 p { line-height: 1.65; }
 :focus-visible { outline: 2px solid #87afff; outline-offset: 5px; }
 .wrap { width: min(calc(100% - 100px), 1160px); margin-inline: auto; }
@@ -77,9 +79,9 @@ p { line-height: 1.65; }
 .hero-copy { animation: enter 560ms ease-out both; }
 .hero h1 {
   font-size: clamp(3rem, 5.7vw, 6rem);
-  font-weight: 750;
+  font-weight: 600;
   line-height: 1.04;
-  letter-spacing: -0.062em;
+  letter-spacing: -0.035em;
   text-wrap: balance;
 }
 .hero-copy p { max-width: 46ch; margin-block: 22px 27px; color: var(--muted); font-size: clamp(1rem, 1.5vw, 1.18rem); }
