@@ -5,6 +5,7 @@ import PageEffects from "./components/PageEffects";
 import PrototypeGallery from "./components/PrototypeGallery";
 import messages, { detectLanguage } from "./i18n/showcase";
 import experienceFor from "./i18n/experience";
+import modulesFor from "./i18n/modules";
 import { detailsFor } from "./i18n/details";
 import { translations } from "./i18n/translations";
 
@@ -61,7 +62,8 @@ export default function App() {
   const [paused, setPaused] = useState(false);
   const text = messages[lang];
   const project = translations[translationKeys[lang] || lang] || translations.pl;
-  const labels = detailsFor(lang, project);
+  const labels = detailsFor(lang);
+  const modules = modulesFor(lang);
   const experience = experienceFor(lang);
   const mentors = [...project.supervisors.school, ...project.supervisors.academic];
   const contactEmail = project.team.members[0].email;
@@ -147,9 +149,9 @@ export default function App() {
           <div className="wrap">
             <h2 data-reveal>{labels.tech}</h2>
             <div className="technology-grid">
-              {labels.technology.map((description, index) => (
-                <article key={description} data-reveal>
-                  <h3>{["VR", "ESP32", "iOS"][index]}</h3>
+              {modules.map(({ title, description }) => (
+                <article key={title} data-reveal>
+                  <h3>{title}</h3>
                   <p>{description}</p>
                 </article>
               ))}

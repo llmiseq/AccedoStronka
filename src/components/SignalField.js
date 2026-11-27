@@ -27,8 +27,8 @@ export default function SignalField({ paused }) {
     function draw() {
       const time = elapsed.current;
       const scale = Math.min(width / 7.4, height / 4.55);
-      const yaw = -0.28 + 0.46 * Math.sin(time * 0.64) + pointerX * 0.35;
-      const pitch = 0.21 + 0.13 * Math.cos(time * 0.6) - pointerY * 0.28;
+      const yaw = -0.42 + 0.53 * Math.sin(time * 0.64) + pointerX * 0.28;
+      const pitch = 0.21 + 0.11 * Math.cos(time * 0.6) - pointerY * 0.19;
       const lift = 5 * Math.sin(time * 1.05);
       const sinYaw = Math.sin(yaw);
       const cosYaw = Math.cos(yaw);
@@ -45,22 +45,35 @@ export default function SignalField({ paused }) {
         return [width / 2 + rotatedX * scale * perspective, height / 2 + lift + rotatedY * scale * perspective];
       }
 
-      function trace(points, color, closed = false) {
+      function trace(points, color, closed = false, fill) {
         context.beginPath();
         points.forEach(([x, y], index) => index ? context.lineTo(x, y) : context.moveTo(x, y));
         if (closed) context.closePath();
+        if (fill) {
+          context.fillStyle = fill;
+          context.fill();
+        }
         context.strokeStyle = color;
         context.stroke();
       }
 
-      function shell(angle, slice) {
+      function roundedPoint(angle, width, height) {
         const cos = Math.cos(angle);
         const sin = Math.sin(angle);
-        const x = 2.05 * Math.sign(cos) * Math.abs(cos) ** 0.49;
-        const nose = sin > 0 ? 0.34 * Math.exp(-((x / 0.48) ** 2)) : 0;
-        const y = 0.93 * Math.sign(sin) * Math.abs(sin) ** 0.62 - nose;
-        const taper = 1 - slice * 0.16;
-        return project(x * taper, y * taper, -0.34 + slice * 0.91);
+        return [
+          width * Math.sign(cos) * Math.abs(cos) ** 0.53,
+          height * Math.sign(sin) * Math.abs(sin) ** 0.53,
+        ];
+      }
+
+      function faceDepth(x, y) {
+        return -0.73 + 0.16 * (x / 2) ** 2 + 0.10 * (y / 0.9) ** 2;
+      }
+
+      function shell(angle, slice) {
+        const [x, y] = roundedPoint(angle, 2.02 + slice * 0.12, 0.86 + slice * 0.10);
+        const nose = y > 0 ? slice * 0.13 * Math.exp(-((x / 0.53) ** 2)) : 0;
+        return project(x, y - nose, faceDepth(x, y) + slice * 1.46);
       }
 
       const orbit = radians.map(angle => project(2.85 * Math.cos(angle), 1.48 * Math.sin(angle), 0.55 * Math.sin(angle) + 0.18));
@@ -80,6 +93,16 @@ export default function SignalField({ paused }) {
         trace([project(x, y - 0.19, z), project(x, y + 0.12, z)], "#3d5985");
       }
 
+      for (const edge of [-0.19, 0.19]) {
+        const strap = strapAngles.map(angle => project(edge, -0.78 - 0.57 * Math.sin(angle), 0.04 + 1.19 * (1 - Math.cos(angle))));
+        trace(strap, "#799bd1");
+      }
+      for (const angle of strapAngles.filter((_, index) => index % 8 === 0)) {
+        const y = -0.78 - 0.57 * Math.sin(angle);
+        const z = 0.04 + 1.19 * (1 - Math.cos(angle));
+        trace([project(-0.19, y, z), project(0.19, y, z)], "#456696");
+      }
+
       const rows = 7;
       for (let row = rows; row >= 0; row--) {
         trace(radians.map(angle => shell(angle, row / rows)), row === 0 ? "#aecaff" : "#496da4", true);
@@ -93,26 +116,59 @@ export default function SignalField({ paused }) {
         }
       }
 
-      for (const center of [-0.96, 0.96]) {
-        for (const radius of [0.58, 0.46]) {
-          const lens = radians.map(angle => project(center + radius * Math.cos(angle), -0.07 + radius * 0.74 * Math.sin(angle), -0.36));
-          trace(lens, radius > 0.5 ? "#91b6ff" : "#456696", true);
+      context.lineWidth = 1.3;
+      trace(radians.map(angle => shell(angle, 0)), "#b4cdff", true, "#1e3356");
+      context.lineWidth = 0.72;
+      const gridShape = 2 / 0.53;
+      for (let line = -6; line <= 6; line++) {
+        const position = line / 7;
+        const radius = (1 - Math.abs(position) ** gridShape) ** (1 / gridShape);
+        const horizontal = [];
+        const vertical = [];
+        for (let sample = 0; sample <= 24; sample++) {
+          const fraction = (sample / 12 - 1) * radius;
+          const x = fraction * 2.02;
+          const y = position * 0.86;
+          horizontal.push(project(x, y, faceDepth(x, y) - 0.01));
+          const vx = position * 2.02;
+          const vy = fraction * 0.86;
+          vertical.push(project(vx, vy, faceDepth(vx, vy) - 0.01));
         }
-        trace([project(center - 0.11, -0.07, -0.37), project(center + 0.11, -0.07, -0.37)], "#91b6ff");
-        trace([project(center, -0.16, -0.37), project(center, 0.02, -0.37)], "#91b6ff");
+        trace(horizontal, "#3d5885");
+        trace(vertical, "#3d5885");
       }
 
       for (const side of [-1, 1]) {
-        const controllerX = side * 2.55;
-        const controllerY = 0.82 + 0.09 * Math.sin(time * 1.7 + side);
-        const ring = radians.map(angle => project(controllerX + 0.40 * Math.cos(angle), controllerY + 0.26 * Math.sin(angle), -0.30 + 0.15 * Math.sin(angle)));
-        trace(ring, "#6389c6", true);
-        trace([
-          project(controllerX - side * 0.11, controllerY + 0.14, -0.30),
-          project(controllerX - side * 0.17, controllerY + 0.61, -0.26),
-          project(controllerX + side * 0.07, controllerY + 0.66, -0.26),
-          project(controllerX + side * 0.18, controllerY + 0.17, -0.30),
-        ], "#6389c6", true);
+        for (const height of [-1, 1]) {
+          const cameraX = side * (height < 0 ? 1.74 : 1.66);
+          const cameraY = height * 0.57;
+          const cameraDepth = faceDepth(cameraX, cameraY) - 0.02;
+          for (const radius of [0.15, 0.075]) {
+            const rim = radians.map(angle => project(cameraX + radius * Math.cos(angle), cameraY + radius * Math.sin(angle), cameraDepth));
+            trace(rim, radius > 0.1 ? "#acc9ff" : "#5876ac", true, "#111e33");
+          }
+        }
+
+        const controllerX = side * 2.62;
+        const controllerY = 0.84 + 0.09 * Math.sin(time * 1.7 + side);
+        const grip = [
+          project(controllerX - side * 0.18, controllerY + 0.13, -0.35),
+          project(controllerX - side * 0.18, controllerY + 0.65, -0.25),
+          project(controllerX - side * 0.05, controllerY + 0.76, -0.22),
+          project(controllerX + side * 0.13, controllerY + 0.71, -0.25),
+          project(controllerX + side * 0.22, controllerY + 0.16, -0.35),
+        ];
+        trace(grip, "#8fabd9", true, "#203556");
+        for (const radius of [0.48, 0.39]) {
+          const ring = radians.map(angle => project(
+            controllerX + radius * Math.cos(angle),
+            controllerY - 0.11 + radius * Math.sin(angle) * 0.63,
+            -0.35 + radius * Math.sin(angle) * 0.58,
+          ));
+          trace(ring, "#8fabd9", true);
+        }
+        const joystick = radians.map(angle => project(controllerX + 0.078 * Math.cos(angle), controllerY + 0.08 + 0.056 * Math.sin(angle), -0.42));
+        trace(joystick, "#b4cdff", true, "#121f33");
       }
 
       const [x, y] = orbit[Math.floor(time * 22) % samples];
