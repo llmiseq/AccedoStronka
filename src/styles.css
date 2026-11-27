@@ -318,6 +318,40 @@ html { scroll-padding-top: var(--header-offset, 84px); }
 
 [data-scroll-motion] { translate: 0 var(--scroll-shift, 0px); }
 
+.technology-grid article,
+.gallery-grid figure,
+.scenario-grid article,
+.education-stories article,
+.steps li,
+.people-list a,
+.support-row {
+  transition: scale 220ms cubic-bezier(.2, .72, .22, 1), border-color 220ms ease,
+    background-color 220ms ease, box-shadow 220ms ease;
+}
+.text-link > span[aria-hidden="true"] { display: inline-block; transition: translate 200ms ease; }
+
+@media (hover: hover) {
+  .technology-grid article:hover,
+  .gallery-grid figure:hover,
+  .scenario-grid article:hover,
+  .education-stories article:hover { scale: 1.015; border-color: #809fd3; box-shadow: 0 12px 28px #050a1466; }
+  .scenario-grid article:hover { background-color: #23334e; }
+  .steps li:hover { scale: 1.01; background-color: #202f4a; border-color: #809fd3; }
+  .steps li:hover::before { scale: 1.08; background-color: #d2e0ff; }
+  .people-list a:hover, .support-row:hover { scale: 1.02; border-color: #6c85ae; }
+  .people-list a:hover { background-color: #253550; }
+  .text-link:hover > span[aria-hidden="true"] { translate: 3px 0; }
+  [dir="rtl"] .text-link:hover > span[aria-hidden="true"] { translate: -3px 0; }
+}
+
+.technology-grid article:focus-within,
+.gallery-grid figure:focus-within,
+.scenario-grid article:focus-within,
+.education-stories article:focus-within,
+.steps li:focus-within,
+.people-list a:focus-visible,
+.support-row:focus-visible { scale: 1.015; border-color: #809fd3; }
+
 .hero { overflow: clip; }
 .hero .signal-panel {
   translate: 0 var(--hero-drift, 0px);
