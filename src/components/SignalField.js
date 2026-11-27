@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 
 const turn = Math.PI * 2;
 const samples = 96;
+const radians = Array.from({ length: samples }, (_, index) => index * turn / samples);
 
 export default function SignalField({ paused }) {
   const canvasRef = useRef(null);
@@ -18,22 +19,29 @@ export default function SignalField({ paused }) {
     let width;
     let height;
     let visible = true;
+    let targetX = 0;
+    let targetY = 0;
+    let pointerX = 0;
+    let pointerY = 0;
 
     function draw() {
       const time = elapsed.current;
-      const scale = Math.min(width / 6.8, height / 4.3);
-      const yaw = -0.30 + 0.48 * Math.sin(time * 0.65);
-      const pitch = 0.13 + 0.14 * Math.cos(time * 0.53);
+      const scale = Math.min(width / 7.4, height / 4.55);
+      const yaw = -0.28 + 0.46 * Math.sin(time * 0.64) + pointerX * 0.35;
+      const pitch = 0.21 + 0.13 * Math.cos(time * 0.6) - pointerY * 0.28;
       const lift = 5 * Math.sin(time * 1.05);
-      const radians = Array.from({ length: samples }, (_, index) => index * turn / samples);
+      const sinYaw = Math.sin(yaw);
+      const cosYaw = Math.cos(yaw);
+      const sinPitch = Math.sin(pitch);
+      const cosPitch = Math.cos(pitch);
 
       context.clearRect(0, 0, width, height);
 
       function project(x, y, z) {
-        const rotatedX = x * Math.cos(yaw) + z * Math.sin(yaw);
-        const depth = z * Math.cos(yaw) - x * Math.sin(yaw);
-        const rotatedY = y * Math.cos(pitch) - depth * Math.sin(pitch);
-        const perspective = 1 / (1 + (depth * Math.cos(pitch) + y * Math.sin(pitch)) * 0.11);
+        const rotatedX = x * cosYaw + z * sinYaw;
+        const depth = z * cosYaw - x * sinYaw;
+        const rotatedY = y * cosPitch - depth * sinPitch;
+        const perspective = 1 / (1 + (depth * cosPitch + y * sinPitch) * 0.11);
         return [width / 2 + rotatedX * scale * perspective, height / 2 + lift + rotatedY * scale * perspective];
       }
 
@@ -61,12 +69,28 @@ export default function SignalField({ paused }) {
       trace(orbit, "#466291", true);
       context.setLineDash([]);
 
-      for (let row = 4; row >= 0; row--) {
-        trace(radians.map(angle => shell(angle, row / 4)), row === 0 ? "#aecaff" : "#456696", true);
+      const strapAngles = radians.slice(0, samples / 2 + 1);
+      for (const edge of [-0.19, 0.12]) {
+        trace(strapAngles.map(angle => project(1.75 * Math.cos(angle), edge - 0.25 * Math.sin(angle), 0.52 + 2.05 * Math.sin(angle))), "#6d8fc7");
       }
-      for (let column = 0; column < 24; column++) {
-        const angle = column * turn / 24;
-        trace([shell(angle, 0), shell(angle, 1)], "#456696");
+      for (const angle of strapAngles.filter((_, index) => index % 6 === 0)) {
+        const x = 1.75 * Math.cos(angle);
+        const z = 0.52 + 2.05 * Math.sin(angle);
+        const y = -0.25 * Math.sin(angle);
+        trace([project(x, y - 0.19, z), project(x, y + 0.12, z)], "#3d5985");
+      }
+
+      const rows = 7;
+      for (let row = rows; row >= 0; row--) {
+        trace(radians.map(angle => shell(angle, row / rows)), row === 0 ? "#aecaff" : "#496da4", true);
+      }
+      for (let column = 0; column < 36; column++) {
+        const angle = column * turn / 36;
+        const next = angle + turn / 36;
+        trace([shell(angle, 0), shell(angle, 1)], "#496da4");
+        for (let row = 0; row < rows; row++) {
+          trace([shell(angle, row / rows), shell(next, (row + 1) / rows)], "#354f78");
+        }
       }
 
       for (const center of [-0.96, 0.96]) {
@@ -76,6 +100,19 @@ export default function SignalField({ paused }) {
         }
         trace([project(center - 0.11, -0.07, -0.37), project(center + 0.11, -0.07, -0.37)], "#91b6ff");
         trace([project(center, -0.16, -0.37), project(center, 0.02, -0.37)], "#91b6ff");
+      }
+
+      for (const side of [-1, 1]) {
+        const controllerX = side * 2.55;
+        const controllerY = 0.82 + 0.09 * Math.sin(time * 1.7 + side);
+        const ring = radians.map(angle => project(controllerX + 0.40 * Math.cos(angle), controllerY + 0.26 * Math.sin(angle), -0.30 + 0.15 * Math.sin(angle)));
+        trace(ring, "#6389c6", true);
+        trace([
+          project(controllerX - side * 0.11, controllerY + 0.14, -0.30),
+          project(controllerX - side * 0.17, controllerY + 0.61, -0.26),
+          project(controllerX + side * 0.07, controllerY + 0.66, -0.26),
+          project(controllerX + side * 0.18, controllerY + 0.17, -0.30),
+        ], "#6389c6", true);
       }
 
       const [x, y] = orbit[Math.floor(time * 22) % samples];
@@ -88,6 +125,8 @@ export default function SignalField({ paused }) {
     function animate(now) {
       if (lastTime !== undefined) elapsed.current += Math.min(now - lastTime, 50) / 1000;
       lastTime = now;
+      pointerX += (targetX - pointerX) * 0.08;
+      pointerY += (targetY - pointerY) * 0.08;
       draw();
       frame = requestAnimationFrame(animate);
     }
@@ -110,6 +149,20 @@ export default function SignalField({ paused }) {
       draw();
     }
 
+    function followPointer(event) {
+      if (event.pointerType === "touch") return;
+      const bounds = canvas.getBoundingClientRect();
+      targetX = 2 * (event.clientX - bounds.left) / bounds.width - 1;
+      targetY = 2 * (event.clientY - bounds.top) / bounds.height - 1;
+    }
+
+    function releasePointer() {
+      targetX = 0;
+      targetY = 0;
+    }
+
+    canvas.addEventListener("pointermove", followPointer);
+    canvas.addEventListener("pointerleave", releasePointer);
     resize();
     const sizeObserver = new ResizeObserver(resize);
     sizeObserver.observe(canvas);
@@ -123,6 +176,8 @@ export default function SignalField({ paused }) {
     sync();
     return () => {
       cancelAnimationFrame(frame);
+      canvas.removeEventListener("pointermove", followPointer);
+      canvas.removeEventListener("pointerleave", releasePointer);
       sizeObserver.disconnect();
       visibilityObserver.disconnect();
       motion.removeEventListener("change", sync);

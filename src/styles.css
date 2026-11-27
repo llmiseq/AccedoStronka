@@ -252,3 +252,61 @@ p { line-height: 1.65; }
   .technology-grid { grid-template-columns: minmax(0, 1fr); }
   .header-inner > .site-nav { padding-bottom: 0; }
 }
+
+html { scroll-padding-top: var(--header-offset, 84px); }
+.reading-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 2px;
+  z-index: 6;
+  pointer-events: none;
+  background: #8badff;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+[dir="rtl"] .reading-progress { transform-origin: right center; }
+.hero-layout, .practice-layout, .support-grid, .footer-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.footer-inner .text-link, .site-nav a { overflow-wrap: anywhere; }
+.school-contact span { min-width: 0; }
+.signal-panel::before { inset: 12px; }
+.motion-button { inset-block-start: 18px; inset-inline-end: 18px; }
+
+.scenario-section { border-bottom: 1px solid var(--line); }
+.scenario-intro p { max-width: 70ch; margin-top: 14px; color: var(--muted); }
+.scenario-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; margin-top: 28px; }
+.scenario-grid article { border-top: 2px solid #799be2; background: #192336; padding: 19px 20px 21px; border-radius: 0 0 9px 9px; }
+.scenario-grid h3 { font-size: 1.23rem; margin-bottom: 9px; }
+.scenario-grid p { color: var(--muted); font-size: 0.95rem; }
+
+.gallery-trigger { position: relative; display: block; width: 100%; padding: 0; border: 0; overflow: hidden; background: #101521; }
+.gallery-trigger:focus-visible { outline-offset: -5px; }
+.gallery-trigger img { transition: transform 300ms ease-out; }
+.gallery-trigger:hover img, .gallery-trigger:focus-visible img { transform: scale(1.045); }
+.gallery-enlarge { position: absolute; inset-block-end: 8px; inset-inline-end: 8px; width: 29px; height: 29px; display: grid; place-items: center; border: 1px solid #7591bc; border-radius: 5px; background: #101a2dec; color: var(--white); }
+.gallery-dialog { width: min(880px, calc(100% - 28px)); max-height: calc(100dvh - 28px); padding: 0; border: 1px solid #4d6490; border-radius: 12px; background: #172237; color: var(--white); }
+.gallery-dialog::backdrop { background: #060914dc; }
+.gallery-dialog img { width: 100%; height: auto; max-height: 72dvh; object-fit: contain; background: #0a101d; }
+.gallery-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; }
+.gallery-toolbar p { font-weight: 650; }
+.gallery-toolbar bdi { color: var(--muted); margin-inline-start: 8px; font-size: 0.8rem; }
+.gallery-toolbar button { width: 40px; height: 36px; border: 1px solid #55719f; border-radius: 6px; background: #202f4a; color: var(--white); }
+.gallery-toolbar button:hover { background: #30466c; }
+.gallery-controls { justify-content: center; }
+[dir="rtl"] .gallery-controls button { transform: scaleX(-1); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .has-revealed { animation: section-arrival 650ms ease-out both; }
+  .has-revealed:nth-child(3n + 2) { animation-delay: 65ms; }
+  .has-revealed:nth-child(3n) { animation-delay: 120ms; }
+}
+
+@keyframes section-arrival {
+  from { transform: translateY(19px); opacity: 0.68; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 680px) {
+  .hero-layout, .practice-layout, .support-grid, .footer-inner, .scenario-grid { grid-template-columns: minmax(0, 1fr); }
+  .gallery-grid { gap: 10px; }
+  .gallery-grid figcaption { padding: 8px 9px; overflow-wrap: anywhere; }
+}

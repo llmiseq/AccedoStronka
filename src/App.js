@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import SignalField from "./components/SignalField";
+import PageEffects from "./components/PageEffects";
+import PrototypeGallery from "./components/PrototypeGallery";
 import messages, { detectLanguage } from "./i18n/showcase";
+import experienceFor from "./i18n/experience";
 import { detailsFor } from "./i18n/details";
 import { translations } from "./i18n/translations";
 
@@ -28,7 +31,6 @@ const videoTitles = {
   "zh-Hant": "Accedo 示範", ko: "Accedo 시연", ja: "Accedoのデモ",
   ar: "عرض توضيحي لمشروع Accedo", th: "ชมการสาธิต Accedo", ru: "Accedo на практике",
 };
-const gallery = ["vr-headset", "vr-classroom", "vr-exercise", "prototype-editor", "character-model", "classroom-scene"];
 const languageStorageKey = "accedo-language";
 const translationKeys = { ja: "jp", "zh-Hans": "zh" };
 
@@ -60,6 +62,7 @@ export default function App() {
   const text = messages[lang];
   const project = translations[translationKeys[lang] || lang] || translations.pl;
   const labels = detailsFor(lang, project);
+  const experience = experienceFor(lang);
   const mentors = [...project.supervisors.school, ...project.supervisors.academic];
   const contactEmail = project.team.members[0].email;
 
@@ -87,6 +90,7 @@ export default function App() {
 
   return (
     <>
+      <PageEffects language={lang} />
       <Header text={text} labels={labels} language={language} setLanguage={setLanguage} />
       <main>
         <section id="hero" className="hero">
@@ -112,22 +116,39 @@ export default function App() {
 
         <section id="about" className="section practice">
           <div className="wrap practice-layout">
-            <div>
+            <div data-reveal>
               <h2>{text.practice}</h2>
               <p>{text.description}</p>
             </div>
-            <ol className="steps">
+            <ol className="steps" data-reveal>
               {text.steps.map(step => <li key={step}>{step}</li>)}
             </ol>
           </div>
         </section>
 
+        <section id="scenarios" className="section scenario-section">
+          <div className="wrap">
+            <div className="scenario-intro" data-reveal>
+              <h2>{experience.title}</h2>
+              <p>{experience.intro}</p>
+            </div>
+            <div className="scenario-grid">
+              {experience.topics.map(({ title, description }) => (
+                <article key={title} data-reveal>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="technology" className="section technology-section">
           <div className="wrap">
-            <h2>{labels.tech}</h2>
+            <h2 data-reveal>{labels.tech}</h2>
             <div className="technology-grid">
               {labels.technology.map((description, index) => (
-                <article key={description}>
+                <article key={description} data-reveal>
                   <h3>{["VR", "ESP32", "iOS"][index]}</h3>
                   <p>{description}</p>
                 </article>
@@ -136,29 +157,17 @@ export default function App() {
           </div>
         </section>
 
-        <section id="gallery" className="section gallery-section">
-          <div className="wrap">
-            <h2>{labels.gallery}</h2>
-            <div className="gallery-grid">
-              {gallery.map((frame, index) => (
-                <figure key={frame}>
-                  <img src={assets + "gallery/" + frame + ".webp"} alt="" width="960" height="540" loading="lazy" />
-                  <figcaption>{labels.captions[index]}</figcaption>
-                </figure>
-              ))}
-            </div>
-          </div>
-        </section>
+        <PrototypeGallery assets={assets} labels={labels} experience={experience} />
 
         <section id="team" className="section people">
           <div className="wrap">
-            <h2>{text.team}</h2>
-            <ul className="people-list">
+            <h2 data-reveal>{text.team}</h2>
+            <ul className="people-list" data-reveal>
               {project.team.members.map(member => (
                 <li key={member.email}><a href={`mailto:${member.email}`}>{member.name} <Arrow /></a></li>
               ))}
             </ul>
-            <div className="support-grid">
+            <div className="support-grid" data-reveal>
               <section id="supervisors">
                 <h3>{text.support}</h3>
                 {mentors.map(({ name, role }, index) => (
@@ -183,8 +192,8 @@ export default function App() {
 
         <section id="film" className="section film-section" aria-labelledby="film-title">
           <div className="wrap">
-            <h2 id="film-title">{videoTitles[lang]}</h2>
-            <video className="project-film" lang="pl" aria-labelledby="film-title" controls playsInline preload="none" poster={assets + "accedo-film-poster.jpg"}>
+            <h2 id="film-title" data-reveal>{videoTitles[lang]}</h2>
+            <video data-reveal className="project-film" lang="pl" aria-labelledby="film-title" controls playsInline preload="none" poster={assets + "accedo-film-poster.jpg"}>
               <source src={assets + "accedo-film.mp4"} type="video/mp4" />
             </video>
           </div>
