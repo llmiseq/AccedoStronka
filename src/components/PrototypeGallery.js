@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-const frames = ["vr-headset", "vr-classroom", "vr-exercise", "prototype-editor", "character-model", "classroom-scene"];
+const frames = ["vr-headset", "vr-classroom", "vr-exercise", "prototype-editor", "scene-layout", "classroom-scene"];
 
 export default function PrototypeGallery({ assets, labels, experience }) {
   const dialog = useRef(null);
