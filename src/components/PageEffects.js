@@ -49,34 +49,15 @@ export default function PageEffects({ language, paused }) {
     const background = story?.querySelector("canvas");
     const context = background?.getContext("2d");
     const chapters = story ? [...story.querySelectorAll("[data-scroll-step]")] : [];
-    const scrollMotionItems = [...document.querySelectorAll("[data-scroll-motion]")];
+    let scrollRange = 1;
+    let heroHeight = 1;
     let frame;
     let lastStep;
     let canvasWidth;
     let canvasHeight;
     let drawingScale;
 
-    function updateStory(viewport) {
-      const section = story.getBoundingClientRect();
-      if (section.bottom <= 0 || section.top >= viewport) return;
-
-      const focus = viewport * 0.56;
-      let nearest;
-      let distance = Infinity;
-      for (const chapter of chapters) {
-        const bounds = chapter.getBoundingClientRect();
-        const delta = Math.abs(bounds.top + bounds.height / 2 - focus);
-        if (delta < distance) {
-          distance = delta;
-          nearest = chapter;
-        }
-      }
-      if (nearest !== lastStep) {
-        lastStep?.classList.remove("is-current");
-        nearest?.classList.add("is-current");
-        lastStep = nearest;
-      }
-
+    function resizeBackdrop() {
       if (!context) return;
       const width = background.clientWidth;
       const height = background.clientHeight;
@@ -89,33 +70,22 @@ export default function PageEffects({ language, paused }) {
         background.width = Math.round(width * scale);
         background.height = Math.round(height * scale);
         context.setTransform(scale, 0, 0, scale, 0, 0);
+        drawPerspective(context, width, height, 0.35, root.dir === "rtl");
       }
 
-      const phase = paused || motion.matches ? 0.35 : clamp((viewport - section.top) / (viewport + section.height));
-      drawPerspective(context, width, height, phase, root.dir === "rtl");
     }
 
     function update() {
       frame = undefined;
-      const viewport = window.innerHeight;
-      const range = root.scrollHeight - viewport;
-      const fraction = range > 0 ? clamp(window.scrollY / range) : 0;
+      const fraction = clamp(window.scrollY / scrollRange);
       bar.style.transform = `scaleX(${fraction})`;
 
       if (hero) {
-        const amount = motion.matches || paused ? 0 : clamp(window.scrollY / Math.max(1, hero.offsetHeight));
+        const amount = motion.matches || paused ? 0 : clamp(window.scrollY / heroHeight);
         hero.style.setProperty("--hero-drift", `${amount * 45}px`);
         hero.style.setProperty("--hero-scale", 1 - amount * 0.08);
       }
-      const followScroll = !motion.matches && !paused;
-      const scrollOffsets = scrollMotionItems.map(item => {
-        const bounds = item.getBoundingClientRect();
-        const distanceFromFocus = bounds.top + bounds.height / 2 - viewport * 0.56;
-        const offset = followScroll ? Math.max(-12, Math.min(12, -distanceFromFocus * 0.025)) : 0;
-        return [item, offset];
-      });
-      for (const [item, offset] of scrollOffsets) item.style.setProperty("--scroll-shift", `${offset.toFixed(2)}px`);
-      if (story) updateStory(viewport);
+
     }
 
     function scheduleUpdate() {
@@ -123,26 +93,30 @@ export default function PageEffects({ language, paused }) {
     }
 
     function updateLayout() {
+      scrollRange = Math.max(1, root.scrollHeight - window.innerHeight);
+      heroHeight = Math.max(1, hero?.offsetHeight || 1);
+      resizeBackdrop();
       if (header) root.style.setProperty("--header-offset", `${header.offsetHeight + 15}px`);
       scheduleUpdate();
     }
 
     const reveal = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
       for (const entry of entries) {
-        const isSection = entry.target.matches("main > section:not(#hero), .site-footer");
-        if (isSection) {
-          if (!entry.isIntersecting) continue;
-          if (!motion.matches) entry.target.classList.add("section-has-arrived");
-          reveal.unobserve(entry.target);
-          continue;
-        }
-
-        if (entry.isIntersecting && !motion.matches) entry.target.classList.add("has-revealed");
-        else if (!entry.isIntersecting) entry.target.classList.remove("has-revealed");
+        if (!entry.isIntersecting) continue;
+        if (!paused && !motion.matches) entry.target.classList.add("has-revealed");
+        reveal.unobserve(entry.target);
       }
     }, { threshold: 0.1 }) : null;
 
-    document.querySelectorAll("[data-reveal], main > section:not(#hero), .site-footer").forEach(element => reveal?.observe(element));
+    document.querySelectorAll("[data-reveal]").forEach(element => reveal?.observe(element));
+    const activeChapter = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
+      const current = entries.find(entry => entry.isIntersecting);
+      if (!current) return;
+      lastStep?.classList.remove("is-current");
+      lastStep = current.target;
+      lastStep.classList.add("is-current");
+    }, { rootMargin: "-45% 0px -45% 0px" }) : null;
+    chapters.forEach(chapter => activeChapter?.observe(chapter));
     const resize = "ResizeObserver" in window ? new ResizeObserver(updateLayout) : null;
     resize?.observe(document.body);
     if (header) resize?.observe(header);
@@ -154,6 +128,7 @@ export default function PageEffects({ language, paused }) {
     return () => {
       cancelAnimationFrame(frame);
       reveal?.disconnect();
+      activeChapter?.disconnect();
       resize?.disconnect();
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", updateLayout);
@@ -162,7 +137,7 @@ export default function PageEffects({ language, paused }) {
       root.style.removeProperty("--header-offset");
       hero?.style.removeProperty("--hero-drift");
       hero?.style.removeProperty("--hero-scale");
-      for (const item of scrollMotionItems) item.style.removeProperty("--scroll-shift");
+
     };
   }, [language, paused]);
 
