@@ -179,7 +179,7 @@ export default function App() {
 
         <section id="team" className="section people">
           <div className="wrap">
-            <h2 data-reveal>{text.team}</h2>
+            <h2 data-reveal>{text.ourTeam}</h2>
             <ul className="people-list">
               {project.team.members.map(member => (
                 <li key={member.email} data-reveal><a href={`mailto:${member.email}`}>{member.name} <Arrow /></a></li>
@@ -235,10 +235,11 @@ export default function App() {
       <footer id="contact" className="site-footer">
         <div className="wrap footer-inner">
           <div>
-            <h2>{text.invitation}</h2>
+            <h2 data-reveal>{text.invitation}</h2>
+            <h3 className="contact-team-title" data-reveal>{text.ourTeam}</h3>
             <ul className="contact-members">
               {project.team.members.map(member => (
-                <li key={member.email}>
+                <li key={member.email} data-reveal>
                   <a href={`mailto:${member.email}`}>
                     <strong>{member.name}</strong><bdi>{member.email}</bdi><Arrow />
                   </a>
@@ -247,7 +248,7 @@ export default function App() {
             </ul>
           </div>
           <div lang="pl">
-            <address className="school-contact">
+            <address className="school-contact" data-reveal>
               <a className="text-link" href={school.url}>{school.name} <Arrow /></a>
               <p className="school-address">ul. Harcerska 12<br />44-335 Jastrzębie-Zdrój</p>
               <a className="school-email button button-accent" href={`mailto:${school.email}`}><bdi>{school.email}</bdi><Arrow /></a>

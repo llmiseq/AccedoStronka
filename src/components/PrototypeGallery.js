@@ -6,10 +6,12 @@ export default function PrototypeGallery({ assets, labels, experience }) {
   const dialog = useRef(null);
   const trigger = useRef(null);
   const [current, setCurrent] = useState(0);
+  const [visited, setVisited] = useState(false);
   const frameUrl = index => `${assets}gallery/${frames[index]}.webp`;
   const advance = offset => setCurrent(index => (index + offset + frames.length) % frames.length);
 
   function open(event, index) {
+    setVisited(true);
     trigger.current = event.currentTarget;
     setCurrent(index);
     dialog.current.showModal();
@@ -45,7 +47,12 @@ export default function PrototypeGallery({ assets, labels, experience }) {
           <p id="gallery-caption" aria-live="polite">{labels.captions[current]} <bdi>{current + 1} / {frames.length}</bdi></p>
           <button type="button" onClick={() => dialog.current.close()} aria-label={experience.close} autoFocus>×</button>
         </div>
-        <img key={current} src={frameUrl(current)} alt="" width="960" height="540" />
+        <div className="gallery-slides">
+          {visited && frames.map((frame, index) => (
+            <img key={frame} className={index === current ? "active-slide" : ""}
+              src={frameUrl(index)} alt="" width="960" height="540" />
+          ))}
+        </div>
         <div className="gallery-toolbar gallery-controls">
           <button type="button" aria-label={experience.previous} onClick={() => advance(-1)}>←</button>
           <button type="button" aria-label={experience.next} onClick={() => advance(1)}>→</button>

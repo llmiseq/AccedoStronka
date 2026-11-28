@@ -1,7 +1,7 @@
 const languageNames = {
-  pl: "Polski", en: "English", de: "Deutsch", fr: "Français", es: "Español",
-  "zh-Hans": "简体中文", "zh-Hant": "繁體中文", ko: "한국어", ja: "日本語",
-  ar: "العربية", th: "ไทย", ru: "Русский",
+  pl: "🇵🇱 Polski", en: "🇬🇧 English", de: "🇩🇪 Deutsch", fr: "🇫🇷 Français", es: "🇪🇸 Español",
+  "zh-Hans": "🇨🇳 简体中文", "zh-Hant": "🇹🇼 繁體中文", ko: "🇰🇷 한국어", ja: "🇯🇵 日本語",
+  ar: "🇸🇦 العربية", th: "🇹🇭 ไทย", ru: "🇷🇺 Русский",
 };
 
 export function Brand() {
@@ -27,7 +27,7 @@ export default function Header({ text, labels, language, setLanguage }) {
         <label className="language-picker">
           <span>{labels.language}</span>
           <select value={language} onChange={event => setLanguage(event.target.value)}>
-            <option value="auto">Auto</option>
+            <option value="auto">🌐 Auto</option>
             {Object.entries(languageNames).map(([code, name]) => (
               <option key={code} value={code} lang={code}>{name}</option>
             ))}
