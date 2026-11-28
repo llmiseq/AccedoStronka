@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 const turn = Math.PI * 2;
-const samples = 96;
+const samples = 64;
 const radians = Array.from({ length: samples }, (_, index) => index * turn / samples);
 
 export default function SignalField({ paused }) {
@@ -107,13 +107,19 @@ export default function SignalField({ paused }) {
       for (let row = rows; row >= 0; row--) {
         trace(radians.map(angle => shell(angle, row / rows)), row === 0 ? "#aecaff" : "#496da4", true);
       }
-      for (let column = 0; column < 36; column++) {
-        const angle = column * turn / 36;
-        const next = angle + turn / 36;
-        trace([shell(angle, 0), shell(angle, 1)], "#496da4");
-        for (let row = 0; row < rows; row++) {
-          trace([shell(angle, row / rows), shell(next, (row + 1) / rows)], "#354f78");
+      // Batch mesh segments by colour so the canvas strokes each group once.
+      for (const diagonal of [false, true]) {
+        context.beginPath();
+        for (let column = 0; column < 36; column++) {
+          const angle = column * turn / 36;
+          const segments = diagonal ? rows : 1;
+          for (let row = 0; row < segments; row++) {
+            context.moveTo(...shell(angle, row / segments));
+            context.lineTo(...shell(diagonal ? angle + turn / 36 : angle, (row + 1) / segments));
+          }
         }
+        context.strokeStyle = diagonal ? "#354f78" : "#496da4";
+        context.stroke();
       }
 
       context.lineWidth = 1.3;
@@ -196,7 +202,7 @@ export default function SignalField({ paused }) {
     }
 
     function resize() {
-      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
       width = canvas.clientWidth;
       height = canvas.clientHeight;
       canvas.width = Math.round(width * ratio);

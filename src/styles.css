@@ -530,3 +530,29 @@ html { scroll-padding-top: var(--header-offset, 84px); }
 @media (prefers-reduced-motion: reduce) {
   .hero-orbit * { animation: none !important; }
 }
+
+.contact-members { padding: 0; margin: 18px 0 0; list-style: none; }
+.contact-members a { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 2px 12px; padding: 11px 0; border-top: 1px solid var(--line); }
+.contact-members bdi { grid-column: 1; overflow-wrap: anywhere; color: var(--accent); }
+.contact-members a > span { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+.contact-members a:is(:hover,:focus-visible) strong { text-decoration: underline; }
+.school-contact .school-email { justify-self: start; align-self: start; max-width: 100%; overflow-wrap: anywhere; }
+.scenario-grid article { position: relative; }
+.scenario-grid article::after { content: ""; position: absolute; inset: 0; border: 1px solid #a1c8ff; border-radius: inherit; clip-path: inset(0 100% 0 0); pointer-events: none; }
+.scenario-grid article.is-current::after { clip-path: inset(0); }
+.hero-orbit::before { content: ""; position: absolute; inset: 8% 4%; background: radial-gradient(ellipse, #547dd930, transparent 69%); }
+.gallery-grid figure:is(:hover,:focus-within) { box-shadow: 0 8px 22px #528eed35; }
+@media (prefers-reduced-motion: no-preference) {
+  .site-main:not(.motion-paused) .scenario-grid article::after { transition: clip-path 520ms ease-out; }
+  .site-main:not(.motion-paused) .hero-orbit::before { animation: orbit-light 10s ease-in-out infinite alternate; }
+  .site-main:not(.motion-paused) .gallery-dialog[open] { animation: gallery-open 250ms ease-out; }
+  .site-main:not(.motion-paused) .gallery-dialog[open] > img { animation: frame-arrival 320ms ease-out; }
+  .site-main:not(.motion-paused) :is(h2.has-revealed,.has-revealed > h2) { animation: title-arrival 550ms ease-out; }
+  .button > span { transition: transform 180ms ease-out; }
+  .button:is(:hover,:focus-visible) > span { transform: translateY(2px); }
+}
+@keyframes title-arrival { from { opacity: .5; transform: translateY(12px); } }
+@keyframes gallery-open { from { opacity: .45; transform: scale(.97); } }
+@keyframes frame-arrival { from { opacity: .4; transform: translateY(5px); } }
+@keyframes orbit-light { to { transform: translate3d(4%, -3%, 0); opacity: .55; } }
+.site-main.motion-paused *, .site-main.motion-paused *::before, .site-main.motion-paused *::after { animation: none !important; transition: none !important; }

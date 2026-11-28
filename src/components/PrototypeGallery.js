@@ -45,7 +45,7 @@ export default function PrototypeGallery({ assets, labels, experience }) {
           <p id="gallery-caption" aria-live="polite">{labels.captions[current]} <bdi>{current + 1} / {frames.length}</bdi></p>
           <button type="button" onClick={() => dialog.current.close()} aria-label={experience.close} autoFocus>×</button>
         </div>
-        <img src={frameUrl(current)} alt="" width="960" height="540" />
+        <img key={current} src={frameUrl(current)} alt="" width="960" height="540" />
         <div className="gallery-toolbar gallery-controls">
           <button type="button" aria-label={experience.previous} onClick={() => advance(-1)}>←</button>
           <button type="button" aria-label={experience.next} onClick={() => advance(1)}>→</button>

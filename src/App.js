@@ -236,13 +236,21 @@ export default function App() {
         <div className="wrap footer-inner">
           <div>
             <h2>{text.invitation}</h2>
-            <a className="text-link" href={`mailto:${contactEmail}`}><bdi>{contactEmail}</bdi> <Arrow /></a>
+            <ul className="contact-members">
+              {project.team.members.map(member => (
+                <li key={member.email}>
+                  <a href={`mailto:${member.email}`}>
+                    <strong>{member.name}</strong><bdi>{member.email}</bdi><Arrow />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
           <div lang="pl">
             <address className="school-contact">
               <a className="text-link" href={school.url}>{school.name} <Arrow /></a>
               <p className="school-address">ul. Harcerska 12<br />44-335 Jastrzębie-Zdrój</p>
-              <a className="text-link" href={`mailto:${school.email}`}><bdi>{school.email}</bdi></a>
+              <a className="school-email button button-accent" href={`mailto:${school.email}`}><bdi>{school.email}</bdi><Arrow /></a>
               {school.phones.map(phone => (
                 <span key={phone.value}>{phone.label} <a className="text-link" href={`tel:${phone.value}`}><bdi>{phone.display}</bdi></a></span>
               ))}
