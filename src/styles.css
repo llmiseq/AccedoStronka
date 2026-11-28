@@ -583,3 +583,8 @@ html { scroll-padding-top: var(--header-offset, 84px); }
   0%, 100% { opacity: .58; }
   18%, 82% { opacity: 1; }
 }
+
+.school-contact .school-email { color: var(--accent); font-size: clamp(1.1rem, 2vw, 1.6rem); text-decoration: underline; text-underline-offset: .2em; }
+.school-records[open] summary { margin-bottom: .75rem; }
+.site-credit { border-top: 1px solid var(--line); padding-block: 16px; color: var(--muted); font-size: .87rem; }
+.site-credit bdi { color: var(--ink); }

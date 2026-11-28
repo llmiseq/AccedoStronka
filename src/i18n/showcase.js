@@ -2,7 +2,7 @@ const messages = {
   pl: {
     title: "Każdy uczeń jest częścią klasy.",
     lead: "Accedo pomaga nauczycielom i przyszłym nauczycielom przygotować się do włączania uczniów z niepełnosprawnościami w życie klasy.",
-    about: "O projekcie", team: "Zespół", ourTeam: "Nasz zespół", contact: "Kontakt", sponsors: "Sponsorzy",
+    about: "O projekcie", team: "Zespół", ourTeam: "Nasz zespół", siteCredit: "Stronę stworzył", contact: "Kontakt", sponsors: "Sponsorzy",
     learn: "Poznaj projekt", classroom: "Wirtualna klasa z prototypu Accedo", animation: "Animacja tła",
     practice: "Jak można to przećwiczyć?",
     description: "Tworzymy prototyp szkolenia VR, w którym można przećwiczyć reakcję na trudną sytuację w klasie. Jednym z planowanych scenariuszy jest przeciążenie sensoryczne ucznia w spektrum autyzmu.",
@@ -13,7 +13,7 @@ const messages = {
   en: {
     title: "Every student belongs in the classroom.",
     lead: "Accedo helps teachers and future teachers prepare to include students with disabilities in classroom life.",
-    about: "About", team: "Team", ourTeam: "Our team", contact: "Contact", sponsors: "Sponsors",
+    about: "About", team: "Team", ourTeam: "Our team", siteCredit: "Website by", contact: "Contact", sponsors: "Sponsors",
     learn: "Explore the project", classroom: "Virtual classroom from the Accedo prototype", animation: "Background animation",
     practice: "How can teachers practise?",
     description: "We are building a VR training prototype where educators can practise responding to challenging classroom situations. One planned scenario focuses on sensory overload in an autistic student.",
@@ -24,7 +24,7 @@ const messages = {
   de: {
     title: "Alle gehören zur Klassengemeinschaft.",
     lead: "Accedo bereitet Lehrkräfte und Lehramtsstudierende darauf vor, Schülerinnen und Schüler mit Behinderungen in das Klassenleben einzubeziehen.",
-    about: "Projekt", team: "Team", ourTeam: "Unser Team", contact: "Kontakt", sponsors: "Sponsoren",
+    about: "Projekt", team: "Team", ourTeam: "Unser Team", siteCredit: "Website von", contact: "Kontakt", sponsors: "Sponsoren",
     learn: "Projekt kennenlernen", classroom: "Virtuelles Klassenzimmer aus dem Accedo-Prototyp", animation: "Hintergrundanimation",
     practice: "Wie lässt sich das üben?",
     description: "Wir entwickeln einen VR-Trainingsprototyp, mit dem Lehrkräfte den Umgang mit schwierigen Situationen im Klassenzimmer üben können. Ein geplantes Szenario behandelt Reizüberflutung bei einem autistischen Kind.",
@@ -35,7 +35,7 @@ const messages = {
   fr: {
     title: "Chaque élève a sa place en classe.",
     lead: "Accedo aide les enseignants et futurs enseignants à se préparer à inclure les élèves en situation de handicap dans la vie de la classe.",
-    about: "Le projet", team: "L’équipe", ourTeam: "Notre équipe", contact: "Contact", sponsors: "Sponsors",
+    about: "Le projet", team: "L’équipe", ourTeam: "Notre équipe", siteCredit: "Site réalisé par", contact: "Contact", sponsors: "Sponsors",
     learn: "Découvrir le projet", classroom: "Salle de classe virtuelle du prototype Accedo", animation: "Animation de fond",
     practice: "Comment s’exercer ?",
     description: "Nous développons un prototype de formation en réalité virtuelle pour s’entraîner à réagir à des situations difficiles en classe. Un scénario prévu porte sur la surcharge sensorielle d’un élève autiste.",
@@ -46,7 +46,7 @@ const messages = {
   es: {
     title: "Cada estudiante tiene un lugar en el aula.",
     lead: "Accedo ayuda a docentes y futuros docentes a prepararse para incluir al alumnado con discapacidad en la vida del aula.",
-    about: "El proyecto", team: "Equipo", ourTeam: "Nuestro equipo", contact: "Contacto", sponsors: "Patrocinadores",
+    about: "El proyecto", team: "Equipo", ourTeam: "Nuestro equipo", siteCredit: "Sitio web creado por", contact: "Contacto", sponsors: "Patrocinadores",
     learn: "Conoce el proyecto", classroom: "Aula virtual del prototipo Accedo", animation: "Animación de fondo",
     practice: "¿Cómo se puede practicar?",
     description: "Estamos desarrollando un prototipo de formación en realidad virtual para practicar cómo responder a situaciones difíciles en el aula. Uno de los escenarios previstos aborda la sobrecarga sensorial de un estudiante autista.",
@@ -57,7 +57,7 @@ const messages = {
   "zh-Hans": {
     title: "每个学生都是班级的一员。",
     lead: "Accedo 帮助教师和未来的教师做好准备，让残障学生融入班级生活。",
-    about: "关于项目", team: "团队", ourTeam: "我们的团队", contact: "联系我们", sponsors: "赞助方",
+    about: "关于项目", team: "团队", ourTeam: "我们的团队", siteCredit: "网站制作", contact: "联系我们", sponsors: "赞助方",
     learn: "了解项目", classroom: "Accedo 原型中的虚拟教室", animation: "背景动画",
     practice: "如何练习？",
     description: "我们正在开发虚拟现实培训原型，帮助教师练习应对课堂中的困难情境。计划中的一个情境涉及自闭症学生的感官过载。",
@@ -68,7 +68,7 @@ const messages = {
   "zh-Hant": {
     title: "每位學生都是班級的一員。",
     lead: "Accedo 協助教師與準教師做好準備，讓身心障礙學生參與班級生活。",
-    about: "關於專案", team: "團隊", ourTeam: "我們的團隊", contact: "聯絡我們", sponsors: "贊助單位",
+    about: "關於專案", team: "團隊", ourTeam: "我們的團隊", siteCredit: "網站製作", contact: "聯絡我們", sponsors: "贊助單位",
     learn: "認識專案", classroom: "Accedo 原型中的虛擬教室", animation: "背景動畫",
     practice: "如何練習？",
     description: "我們正在開發虛擬實境訓練原型，協助教師練習處理課堂上的困難情境。其中一個規劃中的情境是自閉症學生出現感官負荷過重時的應對方式。",
@@ -81,7 +81,7 @@ const messages = {
   ko: {
     title: "모든 학생은 학급의 구성원입니다.",
     lead: "Accedo는 교사와 예비 교사가 장애 학생의 학급 생활 참여를 지원할 수 있도록 돕습니다.",
-    about: "프로젝트 소개", team: "팀", ourTeam: "우리 팀", contact: "문의", sponsors: "후원사",
+    about: "프로젝트 소개", team: "팀", ourTeam: "우리 팀", siteCredit: "웹사이트 제작", contact: "문의", sponsors: "후원사",
     learn: "프로젝트 살펴보기", classroom: "Accedo 프로토타입의 가상 교실", animation: "배경 애니메이션",
     practice: "어떻게 연습하나요?",
     description: "교실에서 마주칠 수 있는 어려운 상황에 대응하는 연습을 위해 VR 훈련 프로토타입을 개발하고 있습니다. 계획 중인 시나리오에는 자폐 학생이 겪는 감각 과부하 상황이 포함됩니다.",
@@ -92,7 +92,7 @@ const messages = {
   ja: {
     title: "一人ひとりがクラスの一員です。",
     lead: "Accedoは、障害のある児童・生徒が学級生活に参加できるよう、教員や教員を目指す人の準備を支援します。",
-    about: "プロジェクト", team: "チーム", ourTeam: "私たちのチーム", contact: "お問い合わせ", sponsors: "協賛",
+    about: "プロジェクト", team: "チーム", ourTeam: "私たちのチーム", siteCredit: "サイト制作", contact: "お問い合わせ", sponsors: "協賛",
     learn: "プロジェクトを見る", classroom: "Accedo試作版の仮想教室", animation: "背景アニメーション",
     practice: "どのように練習する？",
     description: "教室で起こる難しい場面への対応を練習できるVR研修の試作版を開発しています。自閉スペクトラム症のある児童・生徒が感覚過負荷を経験する場面も想定しています。",
@@ -103,7 +103,7 @@ const messages = {
   ar: {
     title: "لكل طالب مكان في الصف.",
     lead: "يساعد Accedo المعلمين ومعلمي المستقبل على الاستعداد لإشراك الطلاب ذوي الإعاقة في الحياة الصفية.",
-    about: "عن المشروع", team: "الفريق", ourTeam: "فريقنا", contact: "تواصل معنا", sponsors: "الرعاة",
+    about: "عن المشروع", team: "الفريق", ourTeam: "فريقنا", siteCredit: "تصميم الموقع", contact: "تواصل معنا", sponsors: "الرعاة",
     learn: "تعرّف على المشروع", classroom: "الصف الافتراضي في نموذج Accedo الأولي", animation: "حركة الخلفية",
     practice: "كيف يمكن التدرّب؟",
     description: "نعمل على تطوير نموذج أولي للتدريب بالواقع الافتراضي يتيح للمعلمين التدرّب على التعامل مع المواقف الصعبة في الصف. ويتناول أحد السيناريوهات المخططة فرط التحفيز الحسي لدى طالب من طيف التوحد.",
@@ -114,7 +114,7 @@ const messages = {
   th: {
     title: "นักเรียนทุกคนเป็นส่วนหนึ่งของห้องเรียน",
     lead: "Accedo ช่วยครูและผู้ที่กำลังเตรียมตัวเป็นครูให้พร้อมสนับสนุนนักเรียนที่มีความพิการให้มีส่วนร่วมในชีวิตในห้องเรียน",
-    about: "เกี่ยวกับโครงการ", team: "ทีมงาน", ourTeam: "ทีมของเรา", contact: "ติดต่อ", sponsors: "ผู้สนับสนุน",
+    about: "เกี่ยวกับโครงการ", team: "ทีมงาน", ourTeam: "ทีมของเรา", siteCredit: "ผู้จัดทำเว็บไซต์", contact: "ติดต่อ", sponsors: "ผู้สนับสนุน",
     learn: "รู้จักโครงการ", classroom: "ห้องเรียนเสมือนจริงจากต้นแบบ Accedo", animation: "ภาพเคลื่อนไหวพื้นหลัง",
     practice: "ฝึกอย่างไร?",
     description: "เรากำลังพัฒนาต้นแบบการฝึกด้วยความจริงเสมือน เพื่อให้ครูได้ฝึกรับมือกับสถานการณ์ยากในห้องเรียน หนึ่งในสถานการณ์ที่วางแผนไว้คือภาวะรับสิ่งเร้าทางประสาทสัมผัสมากเกินไปในนักเรียนออทิสติก",
@@ -127,7 +127,7 @@ const messages = {
   ru: {
     title: "Каждый ученик является частью класса.",
     lead: "Accedo помогает учителям и будущим педагогам готовиться к тому, чтобы ученики с инвалидностью могли участвовать в жизни класса.",
-    about: "О проекте", team: "Команда", ourTeam: "Наша команда", contact: "Контакты", sponsors: "Спонсоры",
+    about: "О проекте", team: "Команда", ourTeam: "Наша команда", siteCredit: "Автор сайта", contact: "Контакты", sponsors: "Спонсоры",
     learn: "Узнать о проекте", classroom: "Виртуальный класс из прототипа Accedo", animation: "Анимация фона",
     practice: "Как этому научиться?",
     description: "Мы разрабатываем прототип обучения в виртуальной реальности, где педагоги могут отрабатывать действия в сложных школьных ситуациях. Один из запланированных сценариев посвящён сенсорной перегрузке у ученика с аутизмом.",

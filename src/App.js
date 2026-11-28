@@ -250,14 +250,14 @@ export default function App() {
           <div lang="pl">
             <address className="school-contact" data-reveal>
               <a className="text-link" href={school.url}>{school.name} <Arrow /></a>
-              <p className="school-address">ul. Harcerska 12<br />44-335 Jastrzębie-Zdrój</p>
-              <a className="school-email button button-accent" href={`mailto:${school.email}`}><bdi>{school.email}</bdi><Arrow /></a>
-              {school.phones.map(phone => (
-                <span key={phone.value}>{phone.label} <a className="text-link" href={`tel:${phone.value}`}><bdi>{phone.display}</bdi></a></span>
-              ))}
+              <a className="school-email" href={`mailto:${school.email}`}><bdi>{school.email}</bdi></a>
             </address>
             <details className="school-records">
-              <summary>Dane urzędowe szkoły</summary>
+              <summary>Adres, telefony i dane urzędowe</summary>
+              <p>ul. Harcerska 12, 44-335 Jastrzębie-Zdrój</p>
+              {school.phones.map(phone => (
+                <p key={phone.value}>{phone.label} <a href={`tel:${phone.value}`}><bdi>{phone.display}</bdi></a></p>
+              ))}
               <dl>
                 {school.records.map(([label, value]) => (
                   <div key={label}><dt>{label}</dt><dd><bdi>{value}</bdi></dd></div>
@@ -266,6 +266,7 @@ export default function App() {
             </details>
           </div>
         </div>
+        <div className="wrap"><p className="site-credit">{text.siteCredit} <bdi>Jakub Michalik</bdi></p></div>
       </footer>
     </>
   );
